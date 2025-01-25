@@ -1,16 +1,26 @@
 const myLibrary = [];
 
-function Book(name, author) {
-    this.name = name;
-    this.author = author;
+function Book(title, author, isRead) {
+    this.title = String(title);
+    this.author = String(author);
+    if (isRead === true || isRead === false) {
+        this.isRead = isRead;
+    } else {
+        this.isRead = false;
+    }
+    
 }
 
 Book.prototype.bookInfo = function () {
-    return `${this.name}, by ${this.author}`;
+    return `${this.title}, by ${this.author}. Read?: ${this.isRead}`;
 }
 
-function addBookToLibrary(name, author) {
-    const newBook = new Book(name, author);
+Book.prototype.toggleRead = function () {
+    this.isRead = !this.isRead; 
+}
+
+function addBookToLibrary(title, author) {
+    const newBook = new Book(title, author);
     myLibrary.push(newBook);
 }
 
@@ -24,9 +34,13 @@ const bookshelf = document.querySelector(".bookshelf");
 
 myLibrary.forEach(book => console.log(book.bookInfo()));
 
+
+//add book to bookshelf
+//TODO: turn into a function
+// -> Add delete button to each book, with onclick for delete function
+// -> create delete function
 const newBookDiv = document.createElement("div");
 newBookDiv.classList.add("book");
-
 
 const newTitleDiv = document.createElement("div");
 newTitleDiv.classList.add("title");
@@ -40,5 +54,5 @@ newBookDiv.appendChild(newTitleDiv);
 newBookDiv.appendChild(newAuthorDiv);
 
 bookshelf.appendChild(newBookDiv);
-
+//end function
 
