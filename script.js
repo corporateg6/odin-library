@@ -19,40 +19,47 @@ Book.prototype.toggleRead = function () {
     this.isRead = !this.isRead; 
 }
 
-function addBookToLibrary(title, author) {
-    const newBook = new Book(title, author);
+function addBookToLibrary(title, author, isRead) {
+    const newBook = new Book(title, author, isRead);
     myLibrary.push(newBook);
 }
 
-addBookToLibrary("Book1", "Author1");
-addBookToLibrary("Book2", "Author2");
-addBookToLibrary("Book3", "Author3");
+addBookToLibrary("Book1", "Author1", true);
+addBookToLibrary("Book2", "Author2", false);
+addBookToLibrary("Book3", "Author3", false);
 
 console.table(myLibrary);
 
 const bookshelf = document.querySelector(".bookshelf");
 
-myLibrary.forEach(book => console.log(book.bookInfo()));
-
-
 //add book to bookshelf
-//TODO: turn into a function
+//TODO:
 // -> Add delete button to each book, with onclick for delete function
 // -> create delete function
-const newBookDiv = document.createElement("div");
-newBookDiv.classList.add("book");
 
-const newTitleDiv = document.createElement("div");
-newTitleDiv.classList.add("title");
-newTitleDiv.textContent = "new title";
+function addBookToShelf(book) {
+    const newBookDiv = document.createElement("div");
+    newBookDiv.classList.add("book");
 
-const newAuthorDiv = document.createElement("div");
-newAuthorDiv.classList.add("author");
-newAuthorDiv.textContent = "new author";
+    const newTitleDiv = document.createElement("div");
+    newTitleDiv.classList.add("title");
+    newTitleDiv.textContent = book.title;
 
-newBookDiv.appendChild(newTitleDiv);
-newBookDiv.appendChild(newAuthorDiv);
+    const newAuthorDiv = document.createElement("div");
+    newAuthorDiv.classList.add("author");
+    newAuthorDiv.textContent = book.author;
 
-bookshelf.appendChild(newBookDiv);
-//end function
+    //TODO update to add something to indicate the read status of the book
+    // const newReadDiv = document.createElement("div");
+    // newReadDiv.classList.add("author");
+    // newReadDiv.textContent = book.author;
 
+
+
+    newBookDiv.appendChild(newTitleDiv);
+    newBookDiv.appendChild(newAuthorDiv);
+
+    bookshelf.appendChild(newBookDiv);
+}
+
+myLibrary.forEach(book => addBookToShelf(book));
