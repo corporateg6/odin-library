@@ -36,8 +36,14 @@ const bookshelf = document.querySelector(".bookshelf");
 //TODO:
 // -> Add delete button to each book, with onclick for delete function
 // -> create delete function
+// might be more efficient to just remove every book in the shelf and then add all the books back?
+// instead of trying to see if the book exists and then if not, add it.
 
-function addBookToShelf(book) {
+function removeBookFromLibrary(book) {
+
+}
+
+function addLibraryToShelf(book) {
     const newBookDiv = document.createElement("div");
     newBookDiv.classList.add("book");
 
@@ -49,17 +55,53 @@ function addBookToShelf(book) {
     newAuthorDiv.classList.add("author");
     newAuthorDiv.textContent = book.author;
 
-    //TODO update to add something to indicate the read status of the book
-    // const newReadDiv = document.createElement("div");
-    // newReadDiv.classList.add("author");
-    // newReadDiv.textContent = book.author;
+    const isReadDiv = document.createElement("div");
+    isReadDiv.classList.add("isread");
+    isReadDiv.textContent = `Read? ${book.isRead}`;
 
-
+    const btnDelete = document.createElement("button");
+    btnDelete.classList.add("delete");
+    btnDelete.textContent = "Delete";
+    btnDelete.addEventListener("click", (e) => {
+        const myParent = e.target.parentElement;
+        console.log(myParent);
+        const title = myParent.querySelector(".title").textContent;
+        const author = myParent.querySelector(".author").textContent;
+        const book = new Book(title, author);
+        console.log(book);
+        removeBookFromLibrary(book);
+        updateShelf();
+    });
 
     newBookDiv.appendChild(newTitleDiv);
     newBookDiv.appendChild(newAuthorDiv);
+    newBookDiv.appendChild(isReadDiv);
+    newBookDiv.appendChild(btnDelete);
 
     bookshelf.appendChild(newBookDiv);
 }
 
-myLibrary.forEach(book => addBookToShelf(book));
+function updateShelf() {
+    bookshelf.replaceChildren(); //to clear existing shelf
+    myLibrary.forEach(book => addLibraryToShelf(book));
+}
+
+updateShelf();
+
+const dialog = document.getElementById("dialog");
+const btnSubmitBook = document.getElementById("submit-book");
+const formNewBook = document.getElementById("new-book");
+const btnAddBook = document.getElementById("add-book");
+
+btnAddBook.addEventListener("click", () => dialog.showModal());
+
+btnSubmitBook.addEventListener("click", (e) => {
+    e.preventDefault();
+    const newTitle = document.getElementById("title").value;
+    const newAuthor = document.getElementById("author").value;
+    const newIsRead = document.getElementById("isread").value;
+    dialog.close();
+    formNewBook.reset();
+    addBookToLibrary(newTitle, newAuthor, newIsRead);
+    updateShelf();
+})
