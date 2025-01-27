@@ -40,7 +40,20 @@ const bookshelf = document.querySelector(".bookshelf");
 // instead of trying to see if the book exists and then if not, add it.
 
 function removeBookFromLibrary(book) {
+    for (let i = 0; i < myLibrary.length; i++) {
+        if (book.title === myLibrary[i].title && book.author === myLibrary[i].author) {
+            myLibrary.splice(i,1);
+            i--;
+        }
+    }
+}
 
+function readBookFromLibrary(book) {
+    for (let i = 0; i < myLibrary.length; i++) {
+        if (book.title === myLibrary[i].title && book.author === myLibrary[i].author) {
+            myLibrary[i].toggleRead();
+        }
+    }
 }
 
 function addLibraryToShelf(book) {
@@ -59,23 +72,36 @@ function addLibraryToShelf(book) {
     isReadDiv.classList.add("isread");
     isReadDiv.textContent = `Read? ${book.isRead}`;
 
+    const btnToggleRead = document.createElement("button");
+    btnToggleRead.id = "toggle-read";
+    btnToggleRead.textContent = "Toggle Read";
+
+    btnToggleRead.addEventListener("click", (e) => {
+        const myParent = e.target.parentElement;
+        const title = myParent.querySelector(".title").textContent;
+        const author = myParent.querySelector(".author").textContent;
+        const readThisBook = new Book(title, author);
+        readBookFromLibrary(readThisBook);
+        updateShelf();
+    });
+
     const btnDelete = document.createElement("button");
     btnDelete.classList.add("delete");
     btnDelete.textContent = "Delete";
+
     btnDelete.addEventListener("click", (e) => {
         const myParent = e.target.parentElement;
-        console.log(myParent);
         const title = myParent.querySelector(".title").textContent;
         const author = myParent.querySelector(".author").textContent;
-        const book = new Book(title, author);
-        console.log(book);
-        removeBookFromLibrary(book);
+        const removeThisBook = new Book(title, author);
+        removeBookFromLibrary(removeThisBook);
         updateShelf();
     });
 
     newBookDiv.appendChild(newTitleDiv);
     newBookDiv.appendChild(newAuthorDiv);
     newBookDiv.appendChild(isReadDiv);
+    newBookDiv.appendChild(btnToggleRead);
     newBookDiv.appendChild(btnDelete);
 
     bookshelf.appendChild(newBookDiv);
