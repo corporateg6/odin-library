@@ -1,0 +1,44 @@
+:root {
+    --red: #591225;
+    --brown: #261B21;
+    --blue: #4C6173;
+    --yellow: #A6774E;
+    --tan: #D9C8B4;
+}
+
+/* Google Font Class */
+.bellefair-regular {
+    font-family: "Bellefair", serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: xx-large;
+    color: var(--brown);
+  }
+
+* {
+    font-family: "Garamond", serif;
+    font-size: large;
+    color: var(--tan);
+}
+
+body {
+    background-color: var(--tan);
+}
+
+.bookshelf {
+    background-color: var(--brown);
+}
+  
+.book {
+    background-color: var(--blue);
+    border: 1px solid var(--brown);
+}
+
+dialog {
+    background-color: var(--red);
+    border-color: #fff;
+}
+
+button {
+    color: var(--brown);
+}
